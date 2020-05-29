@@ -1,0 +1,19 @@
+mkdir apache_test #디렉토리 생성
+cd apache_test #접근
+vi test.html
+vi Dockerfile3
+
+FROM ubuntu:14.04
+MAINTAINER "minjaeim <thomas.im@kinemaster>"
+LABEL "purpose"="practice"
+RUN apt-get update
+RUN apt-get install apache2 -y
+ADD test.html /var/www/html
+WORKDIR /var/www/html
+RUN ["/bin/bash", "-c", "echo hello >> test.html"]
+expose 80
+CMD apachectl -D FOREGROUND
+
+docker buil -f Dockerfile3 -t mybuild:0.0 .
+docker run -d -p --name myapacheserver mybuil:0.0
+docker port myapacheserver
